@@ -15,23 +15,23 @@ class _NavPlanButtonState extends State<NavPlanButton> {
   final double height = Get.height;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: height * 0.03),
-      width: width * 0.85,
-      height: height * 0.06,
-      decoration: BoxDecoration(
-        color: ColorDI.bruschettaTomato,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: GestureDetector(
-        onTap: () {
-          // showModalBottomSheet(
-          //   isScrollControlled: true,
-          //   context: context,
-          //   builder: (context) => PlanBottomSheet(),
-          // );
-          Get.toNamed('/plan');
-        },
+    return GestureDetector(
+      onTap: () {
+        // showModalBottomSheet(
+        //   isScrollControlled: true,
+        //   context: context,
+        //   builder: (context) => PlanBottomSheet(),
+        // );
+        Get.toNamed('/plan');
+      },
+      child: Container(
+        margin: EdgeInsets.only(top: height * 0.03),
+        width: width * 0.85,
+        height: height * 0.06,
+        decoration: BoxDecoration(
+          color: ColorDI.bruschettaTomato,
+          borderRadius: BorderRadius.circular(10),
+        ),
         child: Center(
           child: Text(
             '운동 계획하기',
