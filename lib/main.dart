@@ -1,4 +1,3 @@
-import 'package:do_it_app/ui/pages/plan/plan_view.dart';
 import 'package:do_it_app/ui/pages/root_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,7 +18,6 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       getPages: [
         GetPage(name: '/', page: () => RootPage()),
-        GetPage(name: '/plan', page: () => PlanView()),
       ],
     );
   }

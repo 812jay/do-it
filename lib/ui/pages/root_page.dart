@@ -2,7 +2,6 @@ import 'package:do_it_app/ui/pages/my_calendar/my_calendar_view.dart';
 import 'package:do_it_app/utils/define.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class RootPage extends StatefulWidget {
   const RootPage({Key? key}) : super(key: key);
@@ -16,6 +15,7 @@ class _RootPageState extends State<RootPage> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
     MyCalendarView(),
+    Text('루틴'),
     Text('나의운동'),
     Text('설정')
   ];
@@ -33,16 +33,25 @@ class _RootPageState extends State<RootPage> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             label: '달력',
             icon: Icon(Icons.calendar_today_outlined),
           ),
           BottomNavigationBarItem(
+            label: '루틴',
+            icon: Image.asset(
+              'assets/icons/routine.png',
+              color: _selectedIndex == 1 ? ColorDI.clearChill : null,
+              height: height * 0.032,
+            ),
+          ),
+          BottomNavigationBarItem(
             label: '나의운동',
             icon: Image.asset(
               'assets/icons/dumbbell.png',
-              color: _selectedIndex == 1 ? ColorDI.clearChill : null,
+              color: _selectedIndex == 2 ? ColorDI.clearChill : null,
               height: height * 0.032,
             ),
           ),
