@@ -5,31 +5,72 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class WorkoutPlan extends StatefulWidget {
-  const WorkoutPlan({Key? key, required this.selectedDate}) : super(key: key);
+  const WorkoutPlan({Key? key, required this.selectedDay}) : super(key: key);
 
-  final DateTime selectedDate;
+  final DateTime selectedDay;
+
   @override
   _WorkoutPlanState createState() => _WorkoutPlanState();
 }
 
-final double width = Get.width;
-final double height = Get.height;
-
 class _WorkoutPlanState extends State<WorkoutPlan> {
+  final double width = Get.width;
+  final double height = Get.height;
+
+  List<String> categories = [
+    '전체',
+    '하체',
+    '가슴',
+    '어깨',
+    '등',
+    '팔',
+    '역도',
+    '복근',
+    '전신',
+    '기타'
+  ]; // 카테고리 리스트
+
+  List<String> filterOptions = [];
+
+  bool isContainedCategory(String category) {
+    return filterOptions.contains(category);
+  }
+
+  Color getCategoryBoxColor(String category) {
+    final result = isContainedCategory(category);
+    if (result) {
+      return ColorDI.clearChill;
+    } else {
+      return Colors.white;
+    }
+  }
+
+  Color getCategoryBorderColor(String category) {
+    final result = isContainedCategory(category);
+    if (result) {
+      return ColorDI.clearChill;
+    } else {
+      return ColorDI.shootingBreeze;
+    }
+  }
+
+  Color getCategoryTextColor(String category) {
+    final result = isContainedCategory(category);
+    if (result) {
+      return Colors.white;
+    } else {
+      return Colors.black;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    filterOptions.add('전체');
+  }
+
   @override
   Widget build(BuildContext context) {
-    List _categories = [
-      '전체',
-      '하체',
-      '가슴',
-      '어깨',
-      '등',
-      '팔',
-      '역도',
-      '복근',
-      '전신',
-      '기타'
-    ]; // 카테고리 리스트
     return SafeArea(
       child: Container(
         height: height * 0.95,
@@ -48,7 +89,7 @@ class _WorkoutPlanState extends State<WorkoutPlan> {
               ),
               title: Container(
                 child: Text(
-                  DateFormat('yy.MM.dd').format(widget.selectedDate),
+                  DateFormat('yy.MM.dd').format(widget.selectedDay),
                   style: TextStyle(color: Colors.black),
                 ),
               ),
@@ -56,78 +97,69 @@ class _WorkoutPlanState extends State<WorkoutPlan> {
             SliverStickyHeader(
               sticky: true,
               header: Container(
-                decoration: BoxDecoration(color: Colors.white),
                 padding: EdgeInsets.only(
-                  left: width * 0.045,
-                  right: width * 0.005,
+                  left: width * 0.02,
                   bottom: height * 0.02,
                 ),
+                decoration: BoxDecoration(color: Colors.white),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
-                    children: _categories.map((category) {
-                      return getCategoryButton(category: category);
-                    }).toList(),
+                    children: categories
+                        .map(
+                            (category) => getCategoryButton(category: category))
+                        .toList(),
                   ),
                 ),
-              ), //서브 헤더
+              ), //서브헤더
               sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    return Container(
-                      decoration: BoxDecoration(color: ColorDI.clearChill),
-                      margin: EdgeInsets.only(
-                        bottom: height * 0.025,
-                        left: width * 0.05,
-                        right: width * 0.05,
-                      ),
-                      padding: EdgeInsets.all(12),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '전신 | 스내치',
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.white),
-                            ),
-                            Icon(
-                              Icons.bookmark_border,
-                              color: Colors.white,
-                            )
-                          ]),
-                    );
-                  },
-                  childCount: 15,
-                ),
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  return getWorkouts();
+                }, childCount: 50), //운동목록
               ),
-            ), //서브 헤더
-            SliverPadding(padding: EdgeInsets.only(top: height * 0.02)),
+            ),
           ],
         ),
       ),
     );
   }
-}
 
-Widget getCategoryButton({required String category}) {
-  return GestureDetector(
-    onTap: () {},
-    child: Container(
-      padding: EdgeInsets.only(
-        top: height * 0.005,
-        left: height * 0.018,
-        bottom: height * 0.005,
-        right: height * 0.018,
+  Widget getCategoryButton({required String category}) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          filterOptions.clear();
+          filterOptions.add(category);
+        });
+      },
+      child: Container(
+        padding: EdgeInsets.only(
+          top: height * 0.005,
+          left: height * 0.018,
+          bottom: height * 0.005,
+          right: height * 0.018,
+        ),
+        margin: EdgeInsets.only(right: height * 0.02, top: height * 0.02),
+        decoration: BoxDecoration(
+          color: getCategoryBoxColor(category),
+          border: Border.all(width: 1, color: getCategoryBorderColor(category)),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Text(
+          category,
+          style: TextStyle(
+            color: getCategoryTextColor(category),
+            fontSize: 17,
+          ),
+        ),
       ),
-      margin: EdgeInsets.only(right: height * 0.02, top: height * 0.02),
-      decoration: BoxDecoration(
-        border: Border.all(width: 1, color: ColorDI.shootingBreeze),
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: Text(
-        category,
-        style: TextStyle(fontSize: 17),
-      ),
-    ),
-  );
+    );
+  } //카테고리 버튼
+
+  Widget getWorkouts() {
+    return Container(
+      height: height * 0.1,
+      child: Text('data'),
+    );
+  }
 }

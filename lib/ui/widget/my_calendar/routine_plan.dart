@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class RoutinePlan extends StatefulWidget {
-  const RoutinePlan({Key? key, required this.selectedDate}) : super(key: key);
+  const RoutinePlan({Key? key, required this.selectedDay}) : super(key: key);
 
-  final DateTime selectedDate;
+  final DateTime selectedDay;
   @override
   _RoutinePlanState createState() => _RoutinePlanState();
 }
@@ -13,11 +13,11 @@ class RoutinePlan extends StatefulWidget {
 class _RoutinePlanState extends State<RoutinePlan> {
   @override
   Widget build(BuildContext context) {
-    return getBody(widget.selectedDate);
+    return getBody(widget.selectedDay);
   }
 }
 
-Widget getBody(DateTime selectedDate) {
+Widget getBody(DateTime selectedDay) {
   final double height = Get.height;
   return SafeArea(
     child: Container(
@@ -35,7 +35,7 @@ Widget getBody(DateTime selectedDate) {
           ), //뒤로가기
           title: Container(
             child: Text(
-              DateFormat('yy.MM.dd').format(selectedDate),
+              DateFormat('yy.MM.dd').format(selectedDay),
               style: TextStyle(color: Colors.black),
             ),
           ), // 선택한 날짜표시

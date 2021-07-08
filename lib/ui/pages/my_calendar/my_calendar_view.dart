@@ -17,7 +17,7 @@ class _MyCalendarViewState extends State<MyCalendarView> {
   final double height = Get.height;
 
   CalendarFormat format = CalendarFormat.month;
-  DateTime selectedDate = DateTime.now();
+  DateTime selectedDay = DateTime.now();
   DateTime focusedDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class _MyCalendarViewState extends State<MyCalendarView> {
         children: [
           TableCalendar(
             locale: 'ko_KR',
-            focusedDay: selectedDate,
+            focusedDay: selectedDay,
             firstDay: DateTime(1990),
             lastDay: DateTime(2060),
             calendarFormat: CalendarFormat.month,
@@ -38,7 +38,7 @@ class _MyCalendarViewState extends State<MyCalendarView> {
             ),
             onDaySelected: (selectDay, focusDay) {
               setState(() {
-                selectedDate = selectDay;
+                selectedDay = selectDay;
                 focusedDate = focusDay;
               });
             },
@@ -57,7 +57,7 @@ class _MyCalendarViewState extends State<MyCalendarView> {
               todayTextStyle: TextStyle(color: ColorDI.clearChill),
             ),
             selectedDayPredicate: (DateTime date) {
-              return isSameDay(selectedDate, date);
+              return isSameDay(selectedDay, date);
             },
           ), //캘린더
           Container(
@@ -72,12 +72,10 @@ class _MyCalendarViewState extends State<MyCalendarView> {
                   GestureDetector(
                     onTap: () {
                       showModalBottomSheet(
-                        isScrollControlled: true,
-                        context: context,
-                        builder: (context) => WorkoutPlan(
-                          selectedDate: selectedDate,
-                        ),
-                      );
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (context) =>
+                              WorkoutPlan(selectedDay: selectedDay));
                     },
                     child: Container(
                       margin: EdgeInsets.only(top: height * 0.03),
@@ -105,7 +103,7 @@ class _MyCalendarViewState extends State<MyCalendarView> {
                         isScrollControlled: true,
                         context: context,
                         builder: (context) =>
-                            RoutinePlan(selectedDate: selectedDate),
+                            RoutinePlan(selectedDay: selectedDay),
                       );
                     },
                     child: Container(
