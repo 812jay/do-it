@@ -7,4 +7,5 @@ class ColorDI {
   static const bruschettaTomato = Color(0xffff6348);
   static const algalFuel = Color(0xff20bf6b);
   static const shootingBreeze = Color(0xffb2bec3);
+  static const riseNShine = Color(0xfffbc531);
 }

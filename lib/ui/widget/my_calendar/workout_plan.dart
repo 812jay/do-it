@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:ffi';
 
 import 'package:do_it_app/utils/define.dart';
@@ -37,14 +38,35 @@ class _WorkoutPlanState extends State<WorkoutPlan> {
     {'title': '스내치', 'category': '역도', 'bookmarked': true},
     {'title': '풀업', 'category': '등', 'bookmarked': false},
     {'title': '프론트 스쿼트', 'category': '하체', 'bookmarked': true},
-    {'title': '인클라인 벤치프레스', 'category': '가슴', 'bookmarked': true},
+    {'title': '벤치프레스', 'category': '가슴', 'bookmarked': true},
     {'title': '인클라인 덤벨프레스', 'category': '가슴', 'bookmarked': false},
+    {'title': '친업', 'category': '등', 'bookmarked': false},
+    {'title': '오버헤드 프레스', 'category': '어깨', 'bookmarked': true},
+    {'title': '클린 앤 저크', 'category': '역도', 'bookmarked': true},
+    {'title': '버피', 'category': '전신', 'bookmarked': false},
   ];
 
   List<String> filterOptions = [];
 
+  List<String> selectedWorkouts = [];
+  // List<Map> selectedWorkouts = [];
+
   bool isContainedCategory(String category) {
     return filterOptions.contains(category);
+  }
+
+  void isContainedWorkout(String category, String title) {
+    bool result = false;
+    for (int i = 0; i < workouts.length; i++) {
+      if (workouts[i]['title'] == title &&
+          workouts[i]['category'] == category) {
+        result = true;
+      } else {
+        result = false;
+      }
+    }
+    print("isContained: $result");
+    // return result;
   }
 
   Color getCategoryBoxColor(String category) {
@@ -72,6 +94,11 @@ class _WorkoutPlanState extends State<WorkoutPlan> {
     } else {
       return Colors.black;
     }
+  }
+
+  void getWorkoutsBoxColor(String category, String title) {
+    isContainedWorkout(category, title);
+    // print(isContainedWorkout(category, title));
   }
 
   @override
@@ -132,7 +159,7 @@ class _WorkoutPlanState extends State<WorkoutPlan> {
                       String workoutsCategory = workouts[i]['category'];
                       if (selectedCategory == workoutsCategory ||
                           selectedCategory == '전체') {
-                        containWorkouts.add(getWorkouts(category: workouts[i]));
+                        containWorkouts.add(getWorkouts(workout: workouts[i]));
                       }
                     }
                     return Column(
@@ -182,10 +209,21 @@ class _WorkoutPlanState extends State<WorkoutPlan> {
     );
   } //카테고리 버튼
 
-  Widget getWorkouts({required category}) {
+  Widget getWorkouts({required workout}) {
     return GestureDetector(
       onTap: () {
-        print('button');
+        int workoutIndex = workouts.indexOf(workout);
+        if (!selectedWorkouts.contains(workout['title'])) {
+          setState(() {
+            selectedWorkouts.add(workout['title']);
+          });
+        } else {
+          setState(() {
+            selectedWorkouts
+                .removeWhere((element) => element == workout['title']);
+          });
+        }
+        print(selectedWorkouts);
       },
       child: Container(
         padding: EdgeInsets.only(
@@ -200,23 +238,41 @@ class _WorkoutPlanState extends State<WorkoutPlan> {
           right: width * 0.05,
         ),
         decoration: BoxDecoration(
-          border: Border.all(width: 3, color: Colors.black),
+          color: selectedWorkouts.contains(workout['title'])
+              ? ColorDI.clearChill
+              : Colors.white,
+          border: Border.all(
+              width: 3,
+              color: selectedWorkouts.contains(workout['title'])
+                  ? ColorDI.shootingBreeze
+                  : Colors.black),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              '${category['category']} | ${category['title']}',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+              '${workout['category']} | ${workout['title']}',
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: selectedWorkouts.contains(workout['title'])
+                      ? Colors.white
+                      : Colors.black),
             ),
             GestureDetector(
               onTap: () {
-                print('bookmark');
+                int workoutIndex = workouts.indexOf(workout);
+                setState(() => workouts[workoutIndex]
+                    .update('bookmarked', (value) => value = !value));
+                print(workouts[workoutIndex]);
               },
               child: Icon(
-                Icons.bookmark_border,
+                workout['bookmarked']
+                    ? (Icons.bookmark)
+                    : Icons.bookmark_border,
                 size: 36,
+                color: ColorDI.riseNShine,
               ),
             ),
           ],
