@@ -71,11 +71,13 @@ class _MyCalendarViewState extends State<MyCalendarView> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      showModalBottomSheet(
-                          isScrollControlled: true,
-                          context: context,
-                          builder: (context) =>
-                              WorkoutPlan(selectedDay: selectedDay));
+                      // showModalBottomSheet(
+                      //   isScrollControlled: true,
+                      //   context: context,
+                      //   builder: (context) =>
+                      //       WorkoutPlan(selectedDay: selectedDay),
+                      // );
+                      Get.to(() => WorkoutPlan(selectedDay: selectedDay));
                     },
                     child: Container(
                       margin: EdgeInsets.only(top: height * 0.03),
@@ -99,11 +101,8 @@ class _MyCalendarViewState extends State<MyCalendarView> {
                   ), //운동 계획하기 버튼
                   GestureDetector(
                     onTap: () {
-                      showModalBottomSheet(
-                        isScrollControlled: true,
-                        context: context,
-                        builder: (context) =>
-                            RoutinePlan(selectedDay: selectedDay),
+                      Get.to(
+                        () => RoutinePlan(selectedDay: selectedDay),
                       );
                     },
                     child: Container(

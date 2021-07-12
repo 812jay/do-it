@@ -1,6 +1,3 @@
-import 'dart:collection';
-import 'dart:ffi';
-
 import 'package:do_it_app/utils/define.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
@@ -65,7 +62,6 @@ class _WorkoutPlanState extends State<WorkoutPlan> {
         result = false;
       }
     }
-    print("isContained: $result");
     // return result;
   }
 
@@ -98,7 +94,6 @@ class _WorkoutPlanState extends State<WorkoutPlan> {
 
   void getWorkoutsBoxColor(String category, String title) {
     isContainedWorkout(category, title);
-    // print(isContainedWorkout(category, title));
   }
 
   @override
@@ -109,6 +104,13 @@ class _WorkoutPlanState extends State<WorkoutPlan> {
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      body: getBody(),
+      bottomNavigationBar: getBottomNav(),
+    );
+  }
+
+  Widget getBody() {
     return SafeArea(
       child: Container(
         height: height * 0.95,
@@ -127,7 +129,7 @@ class _WorkoutPlanState extends State<WorkoutPlan> {
               ),
               title: Container(
                 child: Text(
-                  DateFormat('yy.MM.dd').format(widget.selectedDay),
+                  "운동 계획하기 | ${DateFormat('yyyy.MM.dd').format(widget.selectedDay)}",
                   style: TextStyle(color: Colors.black),
                 ),
               ),
@@ -223,7 +225,6 @@ class _WorkoutPlanState extends State<WorkoutPlan> {
                 .removeWhere((element) => element == workout['title']);
           });
         }
-        print(selectedWorkouts);
       },
       child: Container(
         padding: EdgeInsets.only(
@@ -265,7 +266,6 @@ class _WorkoutPlanState extends State<WorkoutPlan> {
                 int workoutIndex = workouts.indexOf(workout);
                 setState(() => workouts[workoutIndex]
                     .update('bookmarked', (value) => value = !value));
-                print(workouts[workoutIndex]);
               },
               child: Icon(
                 workout['bookmarked']
@@ -277,6 +277,79 @@ class _WorkoutPlanState extends State<WorkoutPlan> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget getBottomNav() {
+    return Container(
+      height: selectedWorkouts.length != 0 ? height * 0.18 : height * 0.1,
+      child: Column(
+        children: [
+          selectedWorkouts.length != 0
+              ? Expanded(
+                  child: Container(
+                  margin: EdgeInsets.only(
+                    left: width * 0.035,
+                    top: height * 0.015,
+                    bottom: height * 0.02,
+                  ),
+                  height: height * 0.05,
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: selectedWorkouts.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: EdgeInsets.only(right: width * 0.025),
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  String workout =
+                                      selectedWorkouts.elementAt(index);
+                                  setState(() {
+                                    selectedWorkouts.removeWhere(
+                                        (element) => element == workout);
+                                  });
+                                },
+                                child: Icon(Icons.cancel),
+                              ),
+                              Text(
+                                selectedWorkouts.elementAt(index),
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ],
+                          ),
+                        );
+                      }),
+                ))
+              : Container(),
+          Container(
+            height: height * 0.06,
+            width: width * 0.9,
+            margin: EdgeInsets.only(
+              top: height * 0.02,
+              bottom: height * 0.02,
+            ),
+            decoration: BoxDecoration(
+                color: selectedWorkouts.length == 0
+                    ? ColorDI.shootingBreeze
+                    : ColorDI.clearChill,
+                borderRadius: BorderRadius.circular(10)),
+            child: Center(
+              child: GestureDetector(
+                onTap: () {
+                  print(selectedWorkouts);
+                  if (selectedWorkouts.length != 0) Get.back();
+                },
+                child: Text(
+                  '운동 추가하기',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
