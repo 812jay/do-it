@@ -26,7 +26,7 @@ class _RoutinePlanState extends State<RoutinePlan> {
       ],
     },
     {
-      'routineTitle': '수요루틴',
+      'routineTitle': '수요루틴이긴한데이거인지아닌지',
       'workouts': [
         {'title': '클린 앤 저크', 'category': '역도', 'bookmarked': true},
         {'title': '오버헤드 프레스', 'category': '어깨', 'bookmarked': true},
@@ -132,6 +132,7 @@ class _RoutinePlanState extends State<RoutinePlan> {
                     children: [
                       Container(
                         // width: width * 0.3,
+                        width: width * 0.5,
                         child: Text(
                           routine['routineTitle'],
                           overflow: TextOverflow.visible,
