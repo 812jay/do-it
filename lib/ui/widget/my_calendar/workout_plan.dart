@@ -212,9 +212,9 @@ class _WorkoutPlanState extends State<WorkoutPlan> {
   } //카테고리 버튼
 
   Widget getWorkouts({required workout}) {
+    int workoutIndex = workouts.indexOf(workout);
     return GestureDetector(
       onTap: () {
-        int workoutIndex = workouts.indexOf(workout);
         if (!selectedWorkouts.contains(workout['title'])) {
           setState(() {
             selectedWorkouts.add(workout['title']);
@@ -263,7 +263,6 @@ class _WorkoutPlanState extends State<WorkoutPlan> {
             ),
             GestureDetector(
               onTap: () {
-                int workoutIndex = workouts.indexOf(workout);
                 setState(() => workouts[workoutIndex]
                     .update('bookmarked', (value) => value = !value));
               },
@@ -339,7 +338,7 @@ class _WorkoutPlanState extends State<WorkoutPlan> {
             child: Center(
               child: GestureDetector(
                 onTap: () {
-                  print(selectedWorkouts);
+                  // print(selectedWorkouts);
                   if (selectedWorkouts.length != 0) Get.back();
                 },
                 child: Text(
