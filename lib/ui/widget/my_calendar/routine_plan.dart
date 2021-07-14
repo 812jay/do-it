@@ -43,6 +43,7 @@ class _RoutinePlanState extends State<RoutinePlan> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: getBody(),
+      bottomNavigationBar: getBottomNav(),
     );
   }
 
@@ -190,5 +191,80 @@ class _RoutinePlanState extends State<RoutinePlan> {
               ))
           .toList(),
     );
+  }
+
+  Widget getBottomNav() {
+    return Container(
+      height: selectedRoutines.length != 0 ? height * 0.18 : height * 0.1,
+      child: Column(
+        children: [
+          selectedRoutines.length != 0
+              ? Expanded(
+                  child: Container(
+                  margin: EdgeInsets.only(
+                    left: width * 0.035,
+                    top: height * 0.015,
+                    bottom: height * 0.02,
+                  ),
+                  height: height * 0.05,
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: selectedRoutines.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: EdgeInsets.only(right: width * 0.025),
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    selectedRoutines.removeWhere((routine) =>
+                                        routine ==
+                                        selectedRoutines.elementAt(index));
+                                  });
+                                },
+                                child: Icon(Icons.cancel),
+                              ),
+                              Text(
+                                selectedRoutines
+                                    .elementAt(index)['routineTitle'],
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ],
+                          ),
+                        );
+                      }),
+                ))
+              : Container(),
+          Container(
+            height: height * 0.06,
+            width: width * 0.9,
+            margin: EdgeInsets.only(
+              top: height * 0.02,
+              bottom: height * 0.02,
+            ),
+            decoration: BoxDecoration(
+                color: selectedRoutines.length == 0
+                    ? ColorDI.shootingBreeze
+                    : ColorDI.clearChill,
+                borderRadius: BorderRadius.circular(10)),
+            child: Center(
+              child: GestureDetector(
+                onTap: () {
+                  if (selectedRoutines.length != 0) Get.back();
+                },
+                child: Text(
+                  '루틴 추가하기',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+    // return Container(
+    //   height: height * 0.1,
+    // );
   }
 }
