@@ -18,7 +18,7 @@ class _RoutinePlanState extends State<RoutinePlan> {
 
   List<Map<String, dynamic>> routines = [
     {
-      'routineTitle': '월요루틴',
+      'routineTitle': '스티븐 잡스 역도 루틴B-2',
       'workouts': [
         {'title': '스내치', 'category': '역도', 'bookmarked': true},
         {'title': '프론트 스쿼트', 'category': '하체', 'bookmarked': true},
@@ -26,7 +26,7 @@ class _RoutinePlanState extends State<RoutinePlan> {
       ],
     },
     {
-      'routineTitle': '수요루틴이긴한데이거인지아닌지',
+      'routineTitle': '스타팅 스트렝스A',
       'workouts': [
         {'title': '클린 앤 저크', 'category': '역도', 'bookmarked': true},
         {'title': '오버헤드 프레스', 'category': '어깨', 'bookmarked': true},
@@ -132,7 +132,7 @@ class _RoutinePlanState extends State<RoutinePlan> {
                     children: [
                       Container(
                         // width: width * 0.3,
-                        width: width * 0.5,
+                        width: width * 0.4,
                         child: Text(
                           routine['routineTitle'],
                           overflow: TextOverflow.visible,
