@@ -131,7 +131,7 @@ class _RoutinePlanState extends State<RoutinePlan> {
                   child: Row(
                     children: [
                       Container(
-                        width: width * 0.3,
+                        // width: width * 0.3,
                         child: Text(
                           routine['routineTitle'],
                           overflow: TextOverflow.visible,
@@ -146,24 +146,15 @@ class _RoutinePlanState extends State<RoutinePlan> {
                     ],
                   ),
                 ), //루틴명
-                Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          routines.removeWhere((element) =>
-                              element['routineTitle'] ==
-                              routine['routineTitle']);
-                        });
-                      },
-                      child: Icon(Icons.delete, color: Colors.white, size: 30),
-                    ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Icon(Icons.brush, color: Colors.white, size: 30),
-                    ),
-                  ],
-                ) // 삭제, 수정
+                // GestureDetector(
+                //   onTap: () {
+                //     setState(() {
+                //       routines.removeWhere((element) =>
+                //           element['routineTitle'] == routine['routineTitle']);
+                //     });
+                //   },
+                //   child: Icon(Icons.delete, color: Colors.white, size: 30),
+                // ) // 삭제, 수정
               ],
             ),
             getRoutineWorkouts(routine: routines[index]),
