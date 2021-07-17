@@ -1,4 +1,6 @@
 import 'package:do_it_app/ui/pages/my_calendar/my_calendar_view.dart';
+import 'package:do_it_app/ui/pages/routines/routines_view.dart';
+import 'package:do_it_app/ui/pages/workouts/workouts_view.dart';
 import 'package:do_it_app/utils/define.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,8 +17,8 @@ class _RootPageState extends State<RootPage> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
     MyCalendarView(),
-    Text('루틴'),
-    Text('나의운동'),
+    RoutinesView(),
+    WorkoutsView(),
     Text('설정')
   ];
 

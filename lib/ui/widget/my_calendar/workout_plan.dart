@@ -348,7 +348,7 @@ class _WorkoutPlanState extends State<WorkoutPlan> {
                   if (selectedWorkouts.length != 0) Get.back();
                 },
                 child: Text(
-                  '운동 추가하기',
+                  '운동 계획 추가하기',
                   style: TextStyle(color: Colors.white),
                 ),
               ),

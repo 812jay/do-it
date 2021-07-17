@@ -3,16 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-class RoutinePlan extends StatefulWidget {
-  const RoutinePlan({Key? key, required this.selectedDay}) : super(key: key);
-
-  final DateTime selectedDay;
+class RoutinesView extends StatefulWidget {
+  const RoutinesView({Key? key}) : super(key: key);
 
   @override
-  _RoutinePlanState createState() => _RoutinePlanState();
+  _RoutinesViewState createState() => _RoutinesViewState();
 }
 
-class _RoutinePlanState extends State<RoutinePlan> {
+class _RoutinesViewState extends State<RoutinesView> {
   final double width = Get.width;
   final double height = Get.height;
 
@@ -56,16 +54,9 @@ class _RoutinePlanState extends State<RoutinePlan> {
             pinned: true,
             centerTitle: true,
             backgroundColor: Colors.white,
-            leading: GestureDetector(
-              onTap: () => Get.back(),
-              child: Icon(
-                Icons.cancel_outlined,
-                color: Colors.black,
-              ),
-            ),
             title: Container(
               child: Text(
-                "루틴 불러오기 | ${DateFormat('yyyy.MM.dd').format(widget.selectedDay)}",
+                "나의 루틴",
                 style: TextStyle(color: Colors.black),
               ),
             ),
@@ -246,7 +237,7 @@ class _RoutinePlanState extends State<RoutinePlan> {
                   if (selectedRoutines.length != 0) Get.back();
                 },
                 child: Text(
-                  '루틴 계획 추가하기',
+                  '루틴 추가하기',
                   style: TextStyle(color: Colors.white),
                 ),
               ),
