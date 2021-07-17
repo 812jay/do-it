@@ -19,6 +19,7 @@ class _WorkoutPlanState extends State<WorkoutPlan> {
 
   List<String> categories = [
     '전체',
+    '즐겨찾기',
     '하체',
     '가슴',
     '어깨',
@@ -158,9 +159,13 @@ class _WorkoutPlanState extends State<WorkoutPlan> {
                     String selectedCategory = filterOptions[0];
                     List<Widget> containWorkouts = [];
                     for (int i = 0; i < workouts.length; i++) {
+                      bool bookmarked = workouts[i]['bookmarked'];
                       String workoutsCategory = workouts[i]['category'];
                       if (selectedCategory == workoutsCategory ||
                           selectedCategory == '전체') {
+                        containWorkouts.add(getWorkouts(workout: workouts[i]));
+                      }
+                      if (selectedCategory == '즐겨찾기' && bookmarked == true) {
                         containWorkouts.add(getWorkouts(workout: workouts[i]));
                       }
                     }
@@ -183,6 +188,7 @@ class _WorkoutPlanState extends State<WorkoutPlan> {
     return GestureDetector(
       onTap: () {
         setState(() {
+          print(category);
           filterOptions.clear();
           filterOptions.add(category);
         });
