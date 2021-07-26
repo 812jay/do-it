@@ -5,9 +5,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class WorkoutPlan extends StatefulWidget {
-  const WorkoutPlan({Key? key, required this.selectedDay}) : super(key: key);
-
-  final DateTime selectedDay;
+  const WorkoutPlan({Key? key}) : super(key: key);
 
   @override
   _WorkoutPlanState createState() => _WorkoutPlanState();
@@ -16,6 +14,8 @@ class WorkoutPlan extends StatefulWidget {
 class _WorkoutPlanState extends State<WorkoutPlan> {
   final double width = Get.width;
   final double height = Get.height;
+
+  var selectedDay = Get.arguments;
 
   List<String> categories = [
     '전체',
@@ -130,7 +130,7 @@ class _WorkoutPlanState extends State<WorkoutPlan> {
               ),
               title: Container(
                 child: Text(
-                  "운동 계획하기 | ${DateFormat('yyyy.MM.dd').format(widget.selectedDay)}",
+                  "운동 계획하기 | ${DateFormat('yyyy.MM.dd').format(selectedDay)}",
                   style: TextStyle(color: Colors.black),
                 ),
               ),
@@ -258,14 +258,17 @@ class _WorkoutPlanState extends State<WorkoutPlan> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              '${workout['category']} | ${workout['title']}',
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  color: selectedWorkouts.contains(workout['title'])
-                      ? Colors.white
-                      : Colors.black),
+            Container(
+              width: width * 0.65,
+              child: Text(
+                '${workout['category']} | ${workout['title']}',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    color: selectedWorkouts.contains(workout['title'])
+                        ? Colors.white
+                        : Colors.black),
+              ),
             ),
             GestureDetector(
               onTap: () {

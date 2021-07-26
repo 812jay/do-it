@@ -1,3 +1,4 @@
+import 'package:do_it_app/ui/widget/routines/routine_form.dart';
 import 'package:do_it_app/utils/define.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -138,15 +139,30 @@ class _RoutinesViewState extends State<RoutinesView> {
                     ],
                   ),
                 ), //루틴명
-                // GestureDetector(
-                //   onTap: () {
-                //     setState(() {
-                //       routines.removeWhere((element) =>
-                //           element['routineTitle'] == routine['routineTitle']);
-                //     });
-                //   },
-                //   child: Icon(Icons.delete, color: Colors.white, size: 30),
-                // ) // 삭제, 수정
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(() => RoutineForm());
+                      },
+                      child: Icon(Icons.brush_outlined,
+                          color: Colors.white, size: 36),
+                    ), // 삭제
+                    SizedBox(
+                      width: width * 0.03,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          routines.removeWhere((element) =>
+                              element['routineTitle'] ==
+                              routine['routineTitle']);
+                        });
+                      },
+                      child: Icon(Icons.delete, color: Colors.white, size: 36),
+                    ) // 수정
+                  ],
+                ),
               ],
             ),
             getRoutineWorkouts(routine: routines[index]),

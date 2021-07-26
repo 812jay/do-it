@@ -77,7 +77,7 @@ class _MyCalendarViewState extends State<MyCalendarView> {
                       //   builder: (context) =>
                       //       WorkoutPlan(selectedDay: selectedDay),
                       // );
-                      Get.to(() => WorkoutPlan(selectedDay: selectedDay));
+                      Get.to(() => WorkoutPlan(), arguments: selectedDay);
                     },
                     child: Container(
                       margin: EdgeInsets.only(top: height * 0.03),

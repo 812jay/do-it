@@ -1,3 +1,4 @@
+import 'package:do_it_app/ui/widget/workouts/workout_form.dart';
 import 'package:do_it_app/utils/define.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
@@ -235,40 +236,60 @@ class _WorkoutsViewState extends State<WorkoutsView> {
           right: width * 0.05,
         ),
         decoration: BoxDecoration(
-          color: selectedWorkouts.contains(workout['title'])
-              ? ColorDI.clearChill
-              : Colors.white,
+          color: Colors.white,
           border: Border.all(
-              width: 3,
-              color: selectedWorkouts.contains(workout['title'])
-                  ? ColorDI.shootingBreeze
-                  : Colors.black),
+            width: 3,
+            color: Colors.black,
+          ),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              '${workout['category']} | ${workout['title']}',
-              style: TextStyle(
+            Container(
+              width: width * 0.5,
+              child: Text(
+                '${workout['category']} | ${workout['title']}',
+                style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
-                  color: selectedWorkouts.contains(workout['title'])
-                      ? Colors.white
-                      : Colors.black),
-            ),
-            GestureDetector(
-              onTap: () {
-                setState(() => workouts[workoutIndex]
-                    .update('bookmarked', (value) => value = !value));
-              },
-              child: Icon(
-                workout['bookmarked']
-                    ? (Icons.bookmark)
-                    : Icons.bookmark_border,
-                size: 36,
-                color: ColorDI.riseNShine,
+                  color: Colors.black,
+                ),
               ),
+            ),
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Get.to(() => WorkoutForm());
+                  },
+                  child:
+                      Icon(Icons.brush_outlined, color: Colors.black, size: 36),
+                ), // 삭제
+                SizedBox(
+                  width: width * 0.03,
+                ),
+                GestureDetector(
+                  onTap: () {},
+                  child: Icon(Icons.delete, color: Colors.black, size: 36),
+                ), // 수정
+                SizedBox(
+                  width: width * 0.03,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() => workouts[workoutIndex]
+                        .update('bookmarked', (value) => value = !value));
+                  },
+                  child: Icon(
+                    workout['bookmarked']
+                        ? (Icons.bookmark)
+                        : Icons.bookmark_border,
+                    size: 36,
+                    color: ColorDI.riseNShine,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -278,65 +299,24 @@ class _WorkoutsViewState extends State<WorkoutsView> {
 
   Widget getBottomNav() {
     return Container(
-      height: selectedWorkouts.length != 0 ? height * 0.18 : height * 0.1,
+      height: height * 0.1,
       child: Column(
         children: [
-          selectedWorkouts.length != 0
-              ? Expanded(
-                  child: Container(
-                  margin: EdgeInsets.only(
-                    left: width * 0.035,
-                    top: height * 0.015,
-                    bottom: height * 0.02,
-                  ),
-                  height: height * 0.05,
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: selectedWorkouts.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          margin: EdgeInsets.only(right: width * 0.025),
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  String workout =
-                                      selectedWorkouts.elementAt(index);
-                                  setState(() {
-                                    selectedWorkouts.removeWhere(
-                                        (element) => element == workout);
-                                  });
-                                },
-                                child: Icon(Icons.cancel),
-                              ),
-                              Text(
-                                selectedWorkouts.elementAt(index),
-                                style: TextStyle(fontSize: 18),
-                              ),
-                            ],
-                          ),
-                        );
-                      }),
-                ))
-              : Container(),
-          Container(
-            height: height * 0.06,
-            width: width * 0.9,
-            margin: EdgeInsets.only(
-              top: height * 0.02,
-              bottom: height * 0.02,
-            ),
-            decoration: BoxDecoration(
-                color: selectedWorkouts.length == 0
-                    ? ColorDI.shootingBreeze
-                    : ColorDI.clearChill,
-                borderRadius: BorderRadius.circular(10)),
-            child: Center(
-              child: GestureDetector(
-                onTap: () {
-                  // print(selectedWorkouts);
-                  if (selectedWorkouts.length != 0) Get.back();
-                },
+          GestureDetector(
+            onTap: () {
+              Get.to(() => WorkoutForm());
+            },
+            child: Container(
+              height: height * 0.06,
+              width: width * 0.9,
+              margin: EdgeInsets.only(
+                top: height * 0.02,
+                bottom: height * 0.02,
+              ),
+              decoration: BoxDecoration(
+                  color: ColorDI.clearChill,
+                  borderRadius: BorderRadius.circular(10)),
+              child: Center(
                 child: Text(
                   '운동 추가하기',
                   style: TextStyle(color: Colors.white),
