@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:do_it_app/data/workouts.dart';
 
 class WorkoutsView extends StatefulWidget {
   const WorkoutsView({Key? key}) : super(key: key);
@@ -15,33 +17,7 @@ class WorkoutsView extends StatefulWidget {
 class _WorkoutsViewState extends State<WorkoutsView> {
   final double width = Get.width;
   final double height = Get.height;
-
-  List<String> categories = [
-    '전체',
-    '즐겨찾기',
-    '하체',
-    '가슴',
-    '어깨',
-    '등',
-    '팔',
-    '역도',
-    '복근',
-    '전신',
-    '유산소',
-    '기타'
-  ]; // 카테고리 리스트
-
-  List<Map> workouts = [
-    {'title': '스내치', 'category': '역도', 'bookmarked': true},
-    {'title': '풀업', 'category': '등', 'bookmarked': false},
-    {'title': '프론트 스쿼트', 'category': '하체', 'bookmarked': true},
-    {'title': '벤치프레스', 'category': '가슴', 'bookmarked': true},
-    {'title': '인클라인 덤벨프레스', 'category': '가슴', 'bookmarked': false},
-    {'title': '친업', 'category': '등', 'bookmarked': false},
-    {'title': '오버헤드 프레스', 'category': '어깨', 'bookmarked': true},
-    {'title': '클린 앤 저크', 'category': '역도', 'bookmarked': true},
-    {'title': '버피', 'category': '전신', 'bookmarked': false},
-  ];
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   List<String> filterOptions = [];
 
@@ -105,6 +81,7 @@ class _WorkoutsViewState extends State<WorkoutsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: getBody(),
       bottomNavigationBar: getBottomNav(),
     );
@@ -212,16 +189,32 @@ class _WorkoutsViewState extends State<WorkoutsView> {
     int workoutIndex = workouts.indexOf(workout);
     return GestureDetector(
       onTap: () {
-        if (!selectedWorkouts.contains(workout['title'])) {
-          setState(() {
-            selectedWorkouts.add(workout['title']);
-          });
-        } else {
-          setState(() {
-            selectedWorkouts
-                .removeWhere((element) => element == workout['title']);
-          });
-        }
+        // if (!selectedWorkouts.contains(workout['title'])) {
+        //   setState(() {
+        //     selectedWorkouts.add(workout['title']);
+        //   });
+        // } else {
+        //   setState(() {
+        //     selectedWorkouts
+        //         .removeWhere((element) => element == workout['title']);
+        //   });
+        // }
+        // showDialog(
+        //     context: context,
+        //     builder: (BuildContext context) {
+        //       return WorkoutForm();
+        //     });
+        showModalBottomSheet(
+            isScrollControlled: true,
+            context: context,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(20),
+              ),
+            ),
+            builder: (BuildContext context) {
+              return WorkoutForm();
+            });
       },
       child: Container(
         padding: EdgeInsets.only(
@@ -259,23 +252,23 @@ class _WorkoutsViewState extends State<WorkoutsView> {
             ),
             Row(
               children: [
-                GestureDetector(
-                  onTap: () {
-                    Get.to(() => WorkoutForm());
-                  },
-                  child:
-                      Icon(Icons.brush_outlined, color: Colors.black, size: 36),
-                ), // 삭제
-                SizedBox(
-                  width: width * 0.03,
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: Icon(Icons.delete, color: Colors.black, size: 36),
-                ), // 수정
-                SizedBox(
-                  width: width * 0.03,
-                ),
+                // GestureDetector(
+                //   onTap: () {
+                //     Get.to(() => WorkoutForm());
+                //   },
+                //   child:
+                //       Icon(Icons.brush_outlined, color: Colors.black, size: 36),
+                // ), // 삭제
+                // SizedBox(
+                //   width: width * 0.01,
+                // ),
+                // GestureDetector(
+                //   onTap: () {},
+                //   child: Icon(Icons.delete, color: Colors.black, size: 36),
+                // ), // 수정
+                // SizedBox(
+                //   width: width * 0.01,
+                // ),
                 GestureDetector(
                   onTap: () {
                     setState(() => workouts[workoutIndex]
